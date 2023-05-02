@@ -1,0 +1,583 @@
+# Russian translations for PROJECT.
+# Copyright (C) 2020 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-05-02 21:29+0300\n"
+"PO-Revision-Date: 2020-05-03 21:12+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+#: app/__init__.py:47
+msgid "Please log in to access this page."
+msgstr "Пожалуйста, войдите в систему, чтобы получить доступ к этой странице."
+
+#: app/emailf.py:20
+msgid "[SADI] Reset Your Password"
+msgstr "[SADI] Сброс Пароля"
+
+#: app/forms.py:9 app/forms.py:27 app/forms.py:34
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: app/forms.py:10 app/forms.py:51
+msgid "Email"
+msgstr "Email"
+
+#: app/forms.py:11 app/forms.py:28 app/forms.py:56
+msgid "Password"
+msgstr "Пароль"
+
+#: app/forms.py:12 app/forms.py:58
+msgid "Repeat Password"
+msgstr "Повторите пароль"
+
+#: app/forms.py:13 app/routes.py:415 app/templates/register.html:8
+msgid "Register"
+msgstr "Регистрация"
+
+#: app/forms.py:18 app/forms.py:47
+msgid "Please use a different username."
+msgstr "Пожалуйста, используйте другое имя пользователя."
+
+#: app/forms.py:23
+msgid "Please use a different email address."
+msgstr "Пожалуйста, используйте другой адрес электронной почты."
+
+#: app/forms.py:29
+msgid "Remember Me"
+msgstr "Запомнить меня"
+
+#: app/forms.py:30 app/routes.py:466 app/templates/login.html:9
+msgid "Sign In"
+msgstr "Войти"
+
+#: app/forms.py:35
+msgid "About me"
+msgstr "Обо мне"
+
+#: app/forms.py:36 app/forms.py:64
+msgid "Submit"
+msgstr "Опубликовать"
+
+#: app/forms.py:37
+msgid "Cancel"
+msgstr "Отменить"
+
+#: app/forms.py:52 app/forms.py:59
+msgid "Request Password Reset"
+msgstr "Сбросить пароль"
+
+#: app/forms.py:63
+msgid "Say something"
+msgstr "Напишите что-нибудь"
+
+#: app/forms.py:68 app/forms.py:116
+msgid "Base year"
+msgstr "Базовый год"
+
+#: app/forms.py:69 app/forms.py:117
+msgid "Forecast period"
+msgstr "Период прогнозирования"
+
+#: app/forms.py:70 app/forms.py:88
+msgid "Regions"
+msgstr "Регионы"
+
+#: app/forms.py:71 app/routes.py:258
+msgid "Forecast"
+msgstr "Прогноз"
+
+#: app/forms.py:86 app/forms.py:100 app/forms.py:101 app/forms.py:105
+msgid "Sex"
+msgstr "Пол"
+
+#: app/routes.py:126
+msgid "Female"
+msgstr "Женский"
+
+#: app/forms.py:86 app/forms.py:105
+msgid "Female"
+msgstr "Женщины"
+
+#: app/routes.py:125
+msgid "Мale"
+msgstr "Мужской"
+
+#: app/forms.py:86 app/forms.py:105
+msgid "Мale"
+msgstr "Мужчины"
+
+#: app/forms.py:86 app/forms.py:105
+msgid "Both"
+msgstr "Оба пола"
+
+#: app/forms.py:87
+msgid "Types"
+msgstr "Тип населения"
+
+#: app/forms.py:87 app/forms.py:106
+msgid "Urban population"
+msgstr "Городское население"
+
+#: app/forms.py:87 app/forms.py:106
+msgid "Rural population"
+msgstr "Сельское население"
+
+#: app/forms.py:87 app/forms.py:106
+msgid "All population"
+msgstr "Всё население"
+
+#: app/forms.py:89
+msgid "Find"
+msgstr "Найти"
+
+#: app/forms.py:100
+msgid "Category"
+msgstr "Категория"
+
+#: app/forms.py:100 app/forms.py:101 app/forms.py:104
+msgid "Year"
+msgstr "Год"
+
+#: app/forms.py:100 app/forms.py:101 app/forms.py:106
+msgid "Type"
+msgstr "Тип"
+
+#: app/forms.py:100 app/forms.py:101 app/forms.py:107
+msgid "Region"
+msgstr "Регион"
+
+#: app/forms.py:101
+msgid "Category2"
+msgstr "Категория2"
+
+#: app/forms.py:103
+msgid "Parameters"
+msgstr "Параметры"
+
+#: app/forms.py:109
+msgid "Title"
+msgstr "Заголовок"
+
+#: app/forms.py:110
+msgid "Subtitle"
+msgstr "Подзаголовок"
+
+#: app/forms.py:111
+msgid "Chart type"
+msgstr "Тип графика"
+
+#: app/forms.py:111
+msgid "Line graph"
+msgstr "Линейный график"
+
+#: app/forms.py:111
+msgid "Area chart"
+msgstr "Диаграмма с областями"
+
+#: app/forms.py:111
+msgid "Bar chart"
+msgstr "Линейчатая диаграмма"
+
+#: app/forms.py:112
+msgid "Stacked bar chart"
+msgstr "Линейчатая диаграмма с накоплением"
+
+#: app/forms.py:112
+msgid "Scatter plot"
+msgstr "Точечный график"
+
+#: app/forms.py:113
+msgid "Column chart"
+msgstr "Столбчатая диаграмма"
+
+#: app/forms.py:113
+msgid "Stacked column chart"
+msgstr "Столбчатая диаграмма с накоплением"
+
+#: app/forms.py:115
+msgid "Add forecast data"
+msgstr "Добавить данные прогноза"
+
+#: app/forms.py:118
+msgid "Forecast type"
+msgstr "Тип прогноза"
+
+#: app/forms.py:120
+msgid "Draw"
+msgstr "Начертить"
+
+#: app/routes.py:83 app/templates/base.html:44
+msgid "Data"
+msgstr "Данные"
+
+#: app/routes.py:125
+msgid "Male"
+msgstr "Мужской"
+
+#: app/routes.py:204
+msgid "No data was found. Try to change chart settings."
+msgstr "Никаких данных найдено не было. Попробуйте изменить настройки графика."
+
+#: app/routes.py:216 app/templates/base.html:46 app/templates/charts.html:17
+msgid "Charts"
+msgstr "Графики"
+
+#: app/routes.py:234
+msgid "SADI"
+msgstr "SADI"
+
+#: app/routes.py:272 app/routes.py:298
+msgid "Your post is now live!"
+msgstr "Ваш пост опубликован!"
+
+#: app/routes.py:281
+msgid "Blog"
+msgstr "Блог"
+
+#: app/routes.py:324
+msgid "Your changes have been saved."
+msgstr "Ваши изменения были сохранены."
+
+#: app/routes.py:329 app/templates/edit_profile.html:8
+msgid "Edit Profile"
+msgstr "Редактировать профиль"
+
+#: app/routes.py:346
+msgid "Followers"
+msgstr "Подписчики"
+
+#: app/routes.py:364
+msgid "Following"
+msgstr "Подписки"
+
+#: app/routes.py:376 app/routes.py:392
+#, python-format
+msgid "User %(username)s not found."
+msgstr "Пользователь %(username)s не найден."
+
+#: app/routes.py:379
+msgid "You cannot follow yourself!"
+msgstr "Вы не можете подписаться на себя!"
+
+#: app/routes.py:383
+#, python-format
+msgid "You are following %(username)s!"
+msgstr "Вы подписаны на %(username)s!"
+
+#: app/routes.py:395
+msgid "You cannot unfollow yourself!"
+msgstr "Вы не можете отписаться от себя!"
+
+#: app/routes.py:399
+#, python-format
+msgid "You are not following %(username)s."
+msgstr "Вы отписались от %(username)s."
+
+#: app/routes.py:413
+msgid "Congratulations, you are now a registered user!"
+msgstr "Поздравляю, теперь Вы зарегистрированный пользователь!"
+
+#: app/routes.py:428
+msgid "Check your email for the instructions to reset your password"
+msgstr "Проверьте свою электронную почту для получения инструкций по сбросу пароля"
+
+#: app/routes.py:431 app/templates/reset_password_request.html:9
+msgid "Reset Password"
+msgstr "Сброс пароля"
+
+#: app/routes.py:445
+msgid "Your password has been reset."
+msgstr "Ваш пароль был сброшен."
+
+#: app/routes.py:447
+msgid "Reset password"
+msgstr "Сброс пароля"
+
+#: app/routes.py:459
+msgid "Invalid username or password"
+msgstr "Неверное имя пользователя или пароль"
+
+#: app/templates/404.html:4
+msgid "File Not Found"
+msgstr "Файл не найден"
+
+#: app/templates/404.html:9 app/templates/500.html:10
+msgid "Go to Home"
+msgstr "Перейти на Главную"
+
+#: app/templates/500.html:4
+msgid "An unexpected error has occurred"
+msgstr "Возникла непредвиденная ошибка"
+
+#: app/templates/500.html:5
+msgid "The administrator has been notified. Sorry for the inconvenience!"
+msgstr ""
+"Администратор был уведомлен об ошибке. Извините за доставленные "
+"неудобства!"
+
+#: app/templates/_chart_form.html:9
+msgid "Chart properties"
+msgstr "Свойства диаграммы"
+
+#: app/templates/_chart_form.html:21
+msgid "Enter chart title"
+msgstr "Введите заголовок графика"
+
+#: app/templates/_chart_form.html:25
+msgid "Enter chart subtitle"
+msgstr "Введите подзаголовок графика"
+
+#: app/templates/_chart_form.html:34
+msgid "Data properties"
+msgstr "Свойства данных"
+
+#: app/templates/_chart_form.html:107 app/templates/_forecast_form.html:11
+msgid "Enter base year"
+msgstr "Введите базовый год"
+
+#: app/templates/_chart_form.html:114 app/templates/_forecast_form.html:18
+msgid "Enter period"
+msgstr "Введите период прогноза"
+
+#: app/templates/_data_info_form.html:21 app/templates/_forecast_form.html:27
+msgid "Select region"
+msgstr "Выберите регион"
+
+#: app/templates/_folls.html:15
+#, python-format
+msgid "%(username)s "
+msgstr "%(username)s "
+
+#: app/templates/_folls.html:16 app/templates/user.html:12
+msgid "Last seen on"
+msgstr "Последний раз был(а) в сети"
+
+#: app/templates/_post.html:14
+#, python-format
+msgid "%(username)s said %(when)s:"
+msgstr "%(username)s написал(а) %(when)s:"
+
+#: app/templates/base.html:5
+msgid "Welcome to SADI"
+msgstr "Добро пожаловать в SADI!"
+
+#: app/templates/base.html:43
+msgid "Home"
+msgstr "Главная"
+
+#: app/templates/base.html:45
+msgid "Forecasts"
+msgstr "Прогнозы"
+
+#: app/templates/base.html:51
+msgid "Login"
+msgstr "Войти"
+
+#: app/templates/base.html:54
+msgid "Profile"
+msgstr "Профиль"
+
+#: app/templates/base.html:55
+msgid "Forum"
+msgstr "Форум"
+
+#: app/templates/base.html:56
+msgid "Logout"
+msgstr "Выйти"
+
+#: app/templates/blog.html:6
+#, python-format
+msgid "Hi, %(username)s! It's time to discuss something important!"
+msgstr "Здравствуйте, %(username)s! Пришло время обсудить кое-что важное!"
+
+#: app/templates/blog.html:19 app/templates/follow_ers_ings.html:13
+#: app/templates/user.html:42
+msgid "Newer posts"
+msgstr "Новые публикации"
+
+#: app/templates/blog.html:24 app/templates/follow_ers_ings.html:23
+#: app/templates/user.html:47
+msgid "Older posts"
+msgstr "Старые публикации"
+
+#: app/templates/charts.html:49
+msgid "Select all"
+msgstr "Выберать все"
+
+#: app/templates/charts.html:50
+msgid "Search"
+msgstr "Искать"
+
+#: app/templates/charts.html:51
+msgid "None selected"
+msgstr "Ничего не выбрано"
+
+#: app/templates/charts.html:52
+msgid "selected"
+msgstr "выбрано"
+
+#: app/templates/charts.html:53
+msgid "All selected"
+msgstr "Выбраны все"
+
+#: app/templates/data_info.html:25
+msgid "General"
+msgstr "Общие"
+
+#: app/templates/data_info.html:26
+msgid "Births"
+msgstr "Рождаемость"
+
+#: app/templates/data_info.html:27
+msgid "Birth rates"
+msgstr "Уровень рождаемости"
+
+#: app/templates/data_info.html:28
+msgid "Deaths"
+msgstr "Смертность"
+
+#: app/templates/data_info.html:30
+msgid "Death rates"
+msgstr "Уровень смертности"
+
+#: app/templates/data_info.html:33
+msgid "Migration"
+msgstr "Миграция"
+
+#: app/templates/data_info.html:36
+msgid "Structure"
+msgstr "Структура"
+
+#: app/templates/data_info.html:38
+msgid "Marriage"
+msgstr "Брачность"
+
+#: app/templates/data_info.html:41
+msgid "Economics"
+msgstr "Экономические"
+
+#: app/templates/follow_ers_ings.html:5
+#, python-format
+msgid "My %(follow)s"
+msgstr "Мои %(follow)s"
+
+#: app/templates/follow_ers_ings.html:18
+msgid "Back to profile"
+msgstr "Вернуться к профилю"
+
+#: app/templates/index.html:16
+msgid "Russian population by regions"
+msgstr "Население России по регионам"
+
+#: app/templates/index.html:197
+msgid "Total"
+msgstr "Всего"
+
+#: app/templates/index.html:197
+msgid "million"
+msgstr "миллионов"
+
+#: app/templates/login.html:13
+msgid "New User?"
+msgstr "Впервые здесь?"
+
+#: app/templates/login.html:13
+msgid "Click to Register!"
+msgstr "Зарегистрируйтесь!"
+
+#: app/templates/login.html:15
+msgid "Forgot Your Password?"
+msgstr "Забыли пароль?"
+
+#: app/templates/login.html:16
+msgid "Click to Reset It"
+msgstr "Нажмите, чтобы сбросить его"
+
+#: app/templates/reset_password.html:9
+msgid "Reset Your Password"
+msgstr "Сбросить пароль"
+
+#: app/templates/user.html:9
+msgid "User"
+msgstr "Пользователь"
+
+#: app/templates/user.html:14
+#, python-format
+msgid "%(count)d followers"
+msgstr "%(count)d подписчиков"
+
+#: app/templates/user.html:15
+#, python-format
+msgid "%(count)d following"
+msgstr "%(count)d подписок"
+
+#: app/templates/user.html:18
+msgid "Edit your profile"
+msgstr "Редактировать профиль"
+
+#: app/templates/user.html:20
+msgid "Follow"
+msgstr "Подписаться"
+
+#: app/templates/user.html:22
+msgid "Unfollow"
+msgstr "Отписаться"
+
+#~ msgid "Date (dd.mm.yyyy)"
+#~ msgstr "Дата (дд:мм:гггг)"
+
+#~ msgid "Time (hh:mm)"
+#~ msgstr "Время (чч:мм)"
+
+#~ msgid "The date format is incorrect."
+#~ msgstr "Формат даты неверен."
+
+#~ msgid "The time format is incorrect."
+#~ msgstr "Формат времени неверен."
+
+#~ msgid "Date and time are incorrect."
+#~ msgstr "Дата и время некорректны."
+
+#~ msgid "Confirm the choice"
+#~ msgstr "Подтверждение выбора"
+
+#~ msgid "Username: %(username)s "
+#~ msgstr "Пользователь: %(username)s "
+
+#~ msgid "About me: %(about_me)s "
+#~ msgstr "Обо мне: %(about_me)s "
+
+#~ msgid "Last seen: %(last_seen)s "
+#~ msgstr "Последний раз был(а) в сети: %(last_seen)s "
+
+#~ msgid "Back to my profile"
+#~ msgstr "Вернуться с своему профилю"
+
+#~ msgid "Hi, %(username)s!"
+#~ msgstr "Здравствуйте, %(username)s!"
+
+#~ msgid "If you don't want to do this: "
+#~ msgstr "Если вы не хотите делать этого:"
+
+#~ msgid "Back"
+#~ msgstr "Назад"
+
+#~ msgid "More"
+#~ msgstr "Вперёд"
+
+#~ msgid "To Home"
+#~ msgstr "На Главную"
+

@@ -1,0 +1,415 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{%- block styles %}
+{{ super() }}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='multiselect.css')}}">
+<link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='charts.css')}}">
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
+{%- endblock styles %}
+
+{% block app_content %}
+<h3>{{ _('Charts') }}
+</h3>
+
+<div class="row">
+    <div id="col1" class="col-md-3 col-sm-3 col-lg-3">
+        {% include '_chart_form.html' %}
+    </div>
+
+    <div id="col2" class="col-md-9 col-sm-9 col-lg-9">
+        <div id={{ chartID|safe }} class="chart"></div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap.min.js"></script>
+
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+
+<script>
+    $.fn.multiselect.Constructor.prototype.defaults.selectAllText = "{{ _('Select all') }}";
+    $.fn.multiselect.Constructor.prototype.defaults.filterPlaceholder = "{{ _('Search') }}";
+    $.fn.multiselect.Constructor.prototype.defaults.nonSelectedText = "{{ _('None selected') }}";
+    $.fn.multiselect.Constructor.prototype.defaults.nSelectedText = "{{ _('selected') }}";
+    $.fn.multiselect.Constructor.prototype.defaults.allSelectedText = "{{ _('All selected') }}";
+
+    $(document).ready(function () {
+        $('.form_multiselect').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            enableFiltering: true,
+        });
+
+    });
+
+    let select2 = document.querySelector("#category2");
+    last_option = ''
+    select2.addEventListener("change", function (element) {
+        let selectedOption = this.selectedOptions[0].value;
+        params_len = $('#params option:selected').length
+
+        if ((last_option == 'sex') && (selectedOption != 'sex')) {
+            f = '{{ form.sex }}'
+            $('#sex_div').html(f)
+            $('#sex').addClass('form_multiselect')
+            $('#sex').prop('required', true)
+            $('#sex').prop('multiple', false)
+
+        }
+        else if ((last_option == 'type') && (selectedOption != 'type')) {
+            f = '{{ form.type }}'
+            $('#type_div').html(f)
+            $('#type').addClass('form_multiselect')
+            $('#type').prop('required', true)
+            $('#type').prop('multiple', false)
+        }
+        else if ((last_option == 'region_id') && (selectedOption != 'region_id')) {
+            f = '{{ form.region_id }}'
+            $('#region_div').html(f)
+            $('#region_id').addClass('form_multiselect')
+            $('#region_id').prop('required', true)
+            $('#region_id').prop('multiple', false)
+        }
+        else if ((last_option == 'year') && (selectedOption != 'year')) {
+            f = '{{ form.year }}'
+            $('#year_div').html(f)
+            $('#year').addClass('form_multiselect')
+            $('#year').prop('required', true)
+            $('#year').prop('multiple', false)
+        }
+
+        if (params_len == 1) {
+            if (selectedOption == 'year') {
+                f = '{{ form.year }}'
+                $('#year_div').html(f)
+                $('#year').addClass('form_multiselect')
+                $('#year').prop('multiple', true)
+                $('#year').prop('required', true)
+
+            }
+            else if (selectedOption == 'sex') {
+                f = '{{ form.sex }}'
+                $('#sex_div').html(f)
+                $('#sex').addClass('form_multiselect')
+                $('#sex').prop('multiple', true)
+                $('#sex').prop('required', true)
+
+
+
+            }
+            else if (selectedOption == 'type') {
+                f = '{{ form.type }}'
+                $('#type_div').html(f)
+                $('#type').addClass('form_multiselect')
+                $('#type').prop('multiple', true)
+                $('#type').prop('required', true)
+            }
+            else if (selectedOption == 'region_id') {
+                f = '{{ form.region_id }}'
+                $('#region_div').html(f)
+                $('#region_id').addClass('form_multiselect')
+                $('#region_id').prop('multiple', true)
+                $('#region_id').prop('required', true)
+            }
+
+        }
+        last_option = selectedOption
+
+
+
+        $('.form_multiselect').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            enableFiltering: true,
+        });
+
+
+    })
+
+    let select = document.querySelector("#category");
+    select.addEventListener("change", function (element) {
+        let selectedOption = this.selectedOptions[0].value;
+        $("#category2 option").prop('disabled', false);
+        if (selectedOption == 'year') {
+            f = '{{ form.year }}'
+            $('#year_div').html(f)
+            $('#year').addClass('form_multiselect')
+            $('#year').prop('multiple', true)
+            $('#year').prop('required', true)
+
+            $("#category2 option[value=year]").prop('disabled', true);
+
+            f = '{{ form.sex }}'
+            $('#sex_div').html(f)
+            $('#sex').addClass('form_multiselect')
+            $('#sex').prop('required', true)
+            $('#sex').prop('multiple', false)
+            f = '{{ form.type }}'
+            $('#type_div').html(f)
+            $('#type').addClass('form_multiselect')
+            $('#type').prop('required', true)
+            $('#type').prop('multiple', false)
+            f = '{{ form.region_id }}'
+            $('#region_div').html(f)
+            $('#region_id').addClass('form_multiselect')
+            $('#region_id').prop('required', true)
+            $('#region_id').prop('multiple', false)
+        }
+        else if (selectedOption == 'sex') {
+            f = '{{ form.sex }}'
+            $('#sex_div').html(f)
+            $('#sex').addClass('form_multiselect')
+            $('#sex').prop('multiple', true)
+            $('#sex').prop('required', true)
+
+            $("#category2 option[value=sex]").prop('disabled', true);
+
+            f = '{{ form.year }}'
+            $('#year_div').html(f)
+            $('#year').addClass('form_multiselect')
+            $('#year').prop('required', true)
+            $('#year').prop('multiple', false)
+            f = '{{ form.type }}'
+            $('#type_div').html(f)
+            $('#type').addClass('form_multiselect')
+            $('#type').prop('required', true)
+            $('#type').prop('multiple', false)
+            f = '{{ form.region_id }}'
+            $('#region_div').html(f)
+            $('#region_id').addClass('form_multiselect')
+            $('#region_id').prop('required', true)
+            $('#region_id').prop('multiple', false)
+
+        }
+        else if (selectedOption == 'type') {
+            f = '{{ form.type }}'
+            $('#type_div').html(f)
+            $('#type').addClass('form_multiselect')
+            $('#type').prop('multiple', true)
+            $('#type').prop('required', true)
+
+            $("#category2 option[value=type]").prop('disabled', true);
+
+            f = '{{ form.sex }}'
+            $('#sex_div').html(f)
+            $('#sex').addClass('form_multiselect')
+            $('#sex').prop('required', true)
+            $('#sex').prop('multiple', false)
+            f = '{{ form.year }}'
+            $('#year_div').html(f)
+            $('#year').addClass('form_multiselect')
+            $('#year').prop('required', true)
+            $('#year').prop('multiple', false)
+            f = '{{ form.region_id }}'
+            $('#region_div').html(f)
+            $('#region_id').addClass('form_multiselect')
+            $('#region_id').prop('required', true)
+            $('#region_id').prop('multiple', false)
+        }
+        else if (selectedOption == 'region_id') {
+            f = '{{ form.region_id }}'
+            $('#region_div').html(f)
+            $('#region_id').addClass('form_multiselect')
+            $('#region_id').prop('multiple', true)
+            $('#region_id').prop('required', true)
+
+            $("#category2 option[value=region_id]").prop('disabled', true);
+
+            f = '{{ form.sex }}'
+            $('#sex_div').html(f)
+            $('#sex').addClass('form_multiselect')
+            $('#sex').prop('required', true)
+            $('#sex').prop('multiple', false)
+            f = '{{ form.year }}'
+            $('#year_div').html(f)
+            $('#year').addClass('form_multiselect')
+            $('#year').prop('required', true)
+            $('#year').prop('multiple', false)
+            f = '{{ form.type }}'
+            $('#type_div').html(f)
+            $('#type').addClass('form_multiselect')
+            $('#type').prop('required', true)
+            $('#type').prop('multiple', false)
+        } else {
+
+            f = '{{ form.sex }}'
+            $('#sex_div').html(f)
+            $('#sex').addClass('form_multiselect')
+            $('#sex').prop('required', true)
+            $('#sex').prop('multiple', false)
+            f = '{{ form.year }}'
+            $('#year_div').html(f)
+            $('#year').addClass('form_multiselect')
+            $('#year').prop('required', true)
+            $('#year').prop('multiple', false)
+            f = '{{ form.type }}'
+            $('#type_div').html(f)
+            $('#type').addClass('form_multiselect')
+            $('#type').prop('required', true)
+            $('#type').prop('multiple', false)
+            f = '{{ form.region_id }}'
+            $('#region_div').html(f)
+            $('#region_id').addClass('form_multiselect')
+            $('#region_id').prop('required', true)
+            $('#region_id').prop('multiple', false)
+
+
+
+        }
+
+
+
+        $('.form_multiselect').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            enableFiltering: true,
+        });
+        select2.dispatchEvent(new Event("change"))
+
+        params_change(document.querySelector("#params"))
+
+
+    })
+
+    var checkbox = document.querySelector("#forecast_check");
+    checkbox.addEventListener('change', function () {
+        if (this.checked) {
+            max_year = $("#base_year").prop('min')
+            let selectedOptions = $("#year").find(":selected");
+            for (let option of selectedOptions) {
+                if (option.value > max_year) {
+                    max_year = option.value
+                }
+            }
+
+            $("#base_year").prop('value', max_year)
+            $("#base_year").prop('max', max_year)
+            $("#forecast_div").show()
+        } else {
+            $("#forecast_div").hide()
+        }
+    });
+
+    function params_change(element) {
+        let current_category = document.querySelector("#category").selectedOptions[0].value
+        let current_sex_options = document.querySelector("#sex").selectedOptions
+        let current_type_options = document.querySelector("#type").selectedOptions
+        let selectedOptions = element.selectedOptions;
+        if ((selectedOptions.length == 1) && (selectedOptions[0].value == 'population') && (current_category == 'year')
+            && (current_sex_options.length == 1) && (current_sex_options[0].value == 'все') && (current_type_options.length == 1)
+            && (current_type_options[0].value == 'все')) {
+            $(".checkboxes").show()
+        }
+        else {
+            $(".checkboxes").hide()
+            document.querySelector("#forecast_check").checked = false
+        }
+        document.querySelector("#forecast_check").dispatchEvent(new Event("change"))
+        if ((selectedOptions.length == 1) && (selectedOptions[0].value == 'age_structure')) {
+            $("#category option").prop('disabled', true);
+            $("#category2 option").prop('disabled', true);
+
+
+            f = '{{ form.year }}'
+            $('#year_div').html(f)
+            $('#year').addClass('form_multiselect')
+            $('#year').prop('required', true)
+            $('#year').prop('multiple', false)
+            f = '{{ form.type }}'
+            $('#type_div').html(f)
+            $('#type').addClass('form_multiselect')
+            $('#type').prop('required', true)
+            $('#type').prop('multiple', false)
+            f = '{{ form.region_id }}'
+            $('#region_div').html(f)
+            $('#region_id').addClass('form_multiselect')
+            $('#region_id').prop('required', true)
+            $('#region_id').prop('multiple', false)
+
+            $('.form_multiselect').multiselect({
+                includeSelectAllOption: true,
+                numberDisplayed: 1,
+                enableFiltering: true,
+            });
+            $("#sex option").prop('disabled', true);
+            $("#sex option[value=все]").prop('selected', true);
+            $("#sex").multiselect("refresh");
+
+        }
+
+    }
+
+    $("#accordion").on('change', function (e) {
+        if ((e.target.id == 'sex') || (e.target.id == 'type')) {
+            params_change(document.querySelector("#params"))
+        }
+        if (e.target.id == 'year') {
+            document.querySelector("#forecast_check").dispatchEvent(new Event("change"))
+        }
+
+    });
+
+    $(document).on('change', '#params', function () { params_change(this) })
+    params_el = document.querySelector("#params")
+    params_el.addEventListener('change', function () { params_change(this) });
+    params_el.dispatchEvent(new Event("change"))
+    select.dispatchEvent(new Event("change"))
+</script>
+
+<script>
+    var chart_id = {{ chartID| safe }}
+    var series = {{ series| safe }}
+    var ctitle = {{ ctitle| safe }}
+    var xAxis = {{ xAxis| safe }}
+    var yAxis = {{ yAxis| safe }}
+    var chart = {{ chart| safe }}
+    var subtitle = {{ subtitle| safe}}
+    var tooltip = {{ tooltip| safe}}
+    var plotOptions = {{ plotOptions| safe}}
+
+
+    switch (tooltip["formatter"]) {
+        case "age_structure":
+            tooltip["formatter"] = function () {
+                return '<b>' + this.series.name + ', age ' + this.point.category + '</b><br/>' +
+                    'Population: ' + Highcharts.numberFormat(Math.abs(this.point.y), 0)
+            }
+            yAxis['labels']['formatter'] = function () { return Math.abs(this.value); }
+            break;
+    }
+
+    $(document).ready(function () {
+        $(chart_id).highcharts({
+            chart: chart,
+            title: ctitle,
+            xAxis: xAxis,
+            yAxis: yAxis,
+            series: series,
+            subtitle: subtitle,
+            tooltip: tooltip,
+            plotOptions: plotOptions
+        });
+    });
+
+</script>
+
+{% endblock %}

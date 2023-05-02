@@ -1,0 +1,44 @@
+<form action="" method="POST">
+
+    {{ form.csrf_token }}
+    <div class="form-row">
+        <div class="form-group col-md-4 col-md-6 col-md-8">
+
+            <label for="base_year" class="form-label">{{form.base_year.label}}</label>
+
+            {{ form.base_year(class="form-control",id="base_year",required="required",
+            type="number",value=base_year, min=form.base_year.validators[0].min,
+            max=form.base_year.validators[0].max, placeholder=_("Enter base year")) }}
+
+        </div>
+        <div class="form-group col-md-4 col-md-6 col-md-8">
+            <label for="period" class="form-label">{{form.period.label}}</label>
+            {{ form.period(class="form-control",id="period",required="required",
+            type="number", value=period , min=form.period.validators[0].min,
+            max=form.period.validators[0].max, placeholder=_("Enter period")) }}
+
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <div class="custom_multiselect">
+                <label for="region" class="form_text form-label">{{form.region.label}}</label>
+                <div class="multiselect_block">
+                    <label class="field_multiselect">{{_('Select region')}}</label>
+                    <input id="checkbox-2" class="multiselect_checkbox" type="checkbox">
+                    <label for="checkbox-2" class="multiselect_label"></label>
+                    {{ form.region(class="custom_field_select",id="region",required="required") }}
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            {{ form.submit(class="btn btn-primary") }}
+            <hr>
+        </div>
+
+    </div>
+</form>

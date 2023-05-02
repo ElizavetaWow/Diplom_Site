@@ -1,0 +1,657 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{%- block styles %}
+{{ super() }}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='multiselect.css')}}">
+{%- endblock styles %}
+
+
+
+{% block app_content %}
+<h3></h3>
+<div>
+    <div>
+        {% include '_data_info_form.html' %}
+    </div>
+
+    <!-- Навигационные вкладки -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab"
+                data-toggle="tab">{{ _('General') }}</a></li>
+        <li role="presentation"><a href="#births" aria-controls="births" role="tab" data-toggle="tab">{{ _('Births') }}</a></li>
+        <li role="presentation"><a href="#birth_rates" aria-controls="birth_rates" role="tab" data-toggle="tab">{{ _('Birth rates') }}</a></li>
+        <li role="presentation"><a href="#deaths" aria-controls="deaths" role="tab" data-toggle="tab">{{ _('Deaths') }}</a>
+        </li>
+        <li role="presentation"><a href="#death_rates" aria-controls="death_rates" role="tab" data-toggle="tab">{{ _('Death rates') }}</a>
+        </li>
+        <li role="presentation"><a href="#migration" aria-controls="migration" role="tab"
+                data-toggle="tab">{{ _('Migration') }}</a>
+        </li>
+        <li role="presentation"><a href="#structure" aria-controls="structure" role="tab"
+                data-toggle="tab">{{ _('Structure') }}</a>
+        </li>
+        <li role="presentation"><a href="#marriage" aria-controls="marriage" role="tab" data-toggle="tab">{{ _('Marriage') }}</a>
+        </li>
+        <li role="presentation"><a href="#economics" aria-controls="economics" role="tab"
+                data-toggle="tab">{{ _('Economics') }}</a>
+        </li>
+    </ul>
+
+    <!-- Вкладки панелей -->
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="general" style="display: none;">
+
+            <table id="data_general" class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th style="vertical-align: middle;">Год</th>
+                        <th style="vertical-align: middle;">Субъект</th>
+
+                        <th style="vertical-align: middle;">Средняя численность, чел.</th>
+                        <th style="vertical-align: middle;">Естественный прирост, чел.</th>
+                        <th style="vertical-align: middle;">Миграционное сальдо, чел.</th>
+                        <th style="vertical-align: middle;">Общий прирост, чел.</th>
+
+                        <th style="vertical-align: middle;">Темп прироста численности, %</th>
+                        <th style="vertical-align: middle;">Коэффициент естественного прироста, ‰</th>
+                        <th style="vertical-align: middle;">Истинный коэффициент естественного прироста, ‰</th>
+                        <th style="vertical-align: middle;">Компенсация возрастной структурой, ‰</th>
+                        <th style="vertical-align: middle;">Брутто-коэффициент воспроизводства, ‰</th>
+                        <th style="vertical-align: middle;">Нетто-коэффициент воспроизводства, ‰</th>
+                        <th style="vertical-align: middle;">Длина поколения, лет</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items_general %}
+                    <tr>
+                        <td>{{ item.year }}</td>
+                        <td>{{ item.region.okato_name }}</td>
+
+                        <td>{{ item.av_population}}</td>
+                        <td>{{ item.natural_growth}}</td>
+                        <td>{{ item.mig_balance}}</td>
+                        <td>{{ item.total_increase}}</td>
+
+                        <td>{{ item.population_growth_rate}}</td>
+                        <td>{{ item.natural_growth_rate}}</td>
+                        <td>{{ item.true_natural_growth_rate}}</td>
+                        <td>{{ item.age_compensation}}</td>
+                        <td>{{ item.gross_reproduction_coeff}}</td>
+                        <td>{{ item.net_reproduction_coeff}}</td>
+                        <td>{{ item.generaten_length}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="births">
+            <table id="data_births" class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th style="vertical-align: middle;">Год</th>
+                        <th style="vertical-align: middle;">Субъект</th>
+
+                        <th style="vertical-align: middle;">Число родившихся, чел.</th>
+                        <th style="vertical-align: middle;">Число абортов, чел.</th>
+                        <th style="vertical-align: middle;">Коэффициент рождаемости, ‰</th>
+                        <th style="vertical-align: middle;">Специальный коэффициент рождаемости, ‰</th>
+                        <th style="vertical-align: middle;">TFR, ‰</th>
+                        <th style="vertical-align: middle;">Коэффициент прерывания беременности, ‰</th>
+                        <th style="vertical-align: middle;">Коэффициент детности, %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items_births %}
+                    <tr>
+                        <td>{{ item.year }}</td>
+                        <td>{{ item.region.okato_name }}</td>
+
+                        <td>{{ item.births}}</td>
+                        <td>{{ item.abortion}}</td>
+                        <td>{{ item.fertility_rate}}</td>
+                        <td>{{ item.special_fertility_rate}}</td>
+                        <td>{{ item.tfr}}</td>
+                        <td>{{ item.abortion_rate}}</td>
+                        <td>{{ item.chil_rate}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        <div role="tabpanel" class="tab-pane" id="birth_rates">
+            <table id="data_birth_rates" class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th style="vertical-align: middle;">Год</th>
+                        <th style="vertical-align: middle;">Субъект</th>
+
+                        <th style="vertical-align: middle;">Возраст (начало периода), лет</th>
+                        <th style="vertical-align: middle;">Возраст (конец периода), лет</th>
+                        <th style="vertical-align: middle;">Возрастной коэффициент рождаемости, ‰</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in birth_items %}
+                    <tr>
+                        <td>{{ item.year }}</td>
+                        <td>{{ item.region.okato_name }}</td>
+
+                        <td>{{ item.age.split('-')[0]}}</td>
+                        <td>{{ item.age.split('-')[-1]}}</td>
+                        <td>{{ item.value}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        <div role="tabpanel" class="tab-pane" id="deaths">
+            <table id="data_deaths" class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th style="vertical-align: middle;">Год</th>
+                        <th style="vertical-align: middle;">Субъект</th>
+
+                        <th style="vertical-align: middle;">Число умерших, чел.</th>
+                        <th style="vertical-align: middle;">Число умерших младенцев, чел.</th>
+                        <th style="vertical-align: middle;">Продолжительность жизни, лет</th>
+                        <th style="vertical-align: middle;">Коэффициент смертности, ‰</th>
+                        <th style="vertical-align: middle;">Коэффициент младенческой смертности, ‰</th>
+                        <th style="vertical-align: middle;">Индекс жизненности, %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items_deaths %}
+                    <tr>
+                        <td>{{ item.year }}</td>
+                        <td>{{ item.region.okato_name }}</td>
+
+                        <td>{{ item.deaths}}</td>
+                        <td>{{ item.deceased_infants}}</td>
+                        <td>{{ item.lifespan}}</td>
+                        <td>{{ item.mortality_rate}}</td>
+                        <td>{{ item.infant_mortality_rate}}</td>
+                        <td>{{ item.vitality_index}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+       
+        <div role="tabpanel" class="tab-pane" id="death_rates">
+            <table id="data_death_rates" class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th style="vertical-align: middle;">Год</th>
+                        <th style="vertical-align: middle;">Субъект</th>
+
+                        <th style="vertical-align: middle;">Возраст (начало периода), лет</th>
+                        <th style="vertical-align: middle;">Возраст (конец периода), лет</th>
+                        <th style="vertical-align: middle;">Возрастной коэффициент смертности, ‰</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in death_items %}
+                    <tr>
+                        <td>{{ item.year }}</td>
+                        <td>{{ item.region.okato_name }}</td>
+
+                        <td>{{ item.age.split('-')[0]}}</td>
+                        <td>{{ item.age.split('-')[-1]}}</td>
+                        <td>{{ item.value}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        <div role="tabpanel" class="tab-pane" id="migration">
+            <table id="data_migration" class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th style="vertical-align: middle;">Год</th>
+                        <th style="vertical-align: middle;">Субъект</th>
+
+                        <th style="vertical-align: middle;">Число прибывших, чел.</th>
+                        <th style="vertical-align: middle;">Число выбывших, чел.</th>
+                        <th style="vertical-align: middle;">Миграционное сальдо, чел.</th>
+                        <th style="vertical-align: middle;">Миграционный оборот, чел.</th>
+                        <th style="vertical-align: middle;">Коэффициент прибытия, ‰</th>
+                        <th style="vertical-align: middle;">Коэффициент выбытия, ‰</th>
+                        <th style="vertical-align: middle;">Коэффициент миграционного оборота, ‰</th>
+                        <th style="vertical-align: middle;">Коэффициент миграционного сальдо, ‰</th>
+                        <th style="vertical-align: middle;">Коэффициент эффективности миграционного оборота, %</th>
+                        <th style="vertical-align: middle;">Относительное сальдо миграции, %</th>
+                        <th style="vertical-align: middle;">Коэффициент миграционной нагрузки, ‰</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items_migration %}
+                    <tr>
+                        <td>{{ item.year }}</td>
+                        <td>{{ item.region.okato_name }}</td>
+
+                        <td>{{ item.immigrant}}</td>
+                        <td>{{ item.emigrant}}</td>
+                        <td>{{ item.mig_balance}}</td>
+                        <td>{{ item.mig_turnover}}</td>
+                        <td>{{ item.immigrantion_rate}}</td>
+                        <td>{{ item.emigrantion_rate}}</td>
+                        <td>{{ item.mig_turnover_rate}}</td>
+                        <td>{{ item.mig_balance_rate}}</td>
+                        <td>{{ item.eff_coeff_mig_turnover}}</td>
+                        <td>{{ item.relative_balance_of_mig}}</td>
+                        <td>{{ item.mig_load_factor}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="structure">
+            <table id="data_structure" class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th style="vertical-align: middle;">Год</th>
+                        <th style="vertical-align: middle;">Субъект</th>
+
+                        <th style="vertical-align: middle;">Численность взрослое трудоспособное, чел.</th>
+                        <th style="vertical-align: middle;">Численность молодое нетрудоспособное, чел.</th>
+                        <th style="vertical-align: middle;">Численность пожилое нетрудоспособное, чел.</th>
+                        <th style="vertical-align: middle;">Уровень демографической старости, %</th>
+                        <th style="vertical-align: middle;">Коэффициент потенциального нагрузки, %</th>
+                        <th style="vertical-align: middle;">Коэффициент пенсионной нагрузки, %</th>
+                        <th style="vertical-align: middle;">Коэффициент общей нагрузки, %</th>
+                        <th style="vertical-align: middle;">Коэффициент Рябцева, доля</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items_structure %}
+                    <tr>
+                        <td>{{ item.year }}</td>
+                        <td>{{ item.region.okato_name }}</td>
+
+                        <td>{{ item.adults_ablebodied}}</td>
+                        <td>{{ item.young_disabled}}</td>
+                        <td>{{ item.elderly_disabled}}</td>
+                        <td>{{ item.aging_rate}}</td>
+                        <td>{{ item.potential_load_factor}}</td>
+                        <td>{{ item.pension_burden_rate}}</td>
+                        <td>{{ item.total_load_factor}}</td>
+                        <td>{{ item.ryabtsev_rate}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="marriage">
+            <table id="data_marriage" class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th style="vertical-align: middle;">Год</th>
+                        <th style="vertical-align: middle;">Субъект</th>
+
+                        <th style="vertical-align: middle;">Число браков</th>
+                        <th style="vertical-align: middle;">Число разводов</th>
+                        <th style="vertical-align: middle;">Коэффициент брачности, ‰</th>
+                        <th style="vertical-align: middle;">Специальный коэффициент брачности, ‰</th>
+                        <th style="vertical-align: middle;">Коэффициент разводимости, ‰</th>
+                        <th style="vertical-align: middle;">Индекс разводимости, %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items_marriage %}
+                    <tr>
+                        <td>{{ item.year }}</td>
+                        <td>{{ item.region.okato_name }}</td>
+
+                        <td>{{ item.marriages}}</td>
+                        <td>{{ item.divorces}}</td>
+                        <td>{{ item.marriage_rate}}</td>
+                        <td>{{ item.special_marriage_coeff}}</td>
+                        <td>{{ item.divorce_rate}}</td>
+                        <td>{{ item.divorce_index}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="economics">
+            <table id="data_economics" class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th style="vertical-align: middle;">Год</th>
+                        <th style="vertical-align: middle;">Субъект</th>
+
+                        <th style="vertical-align: middle;">Реальные денежные доходы, %</th>
+                        <th style="vertical-align: middle;">Уровень безработицы, %</th>
+                        <th style="vertical-align: middle;">Индекс потребительских цен, %</th>
+                        <th style="vertical-align: middle;">Реальный размер назначенных пенсий, %</th>
+                        <th style="vertical-align: middle;">Численность малоимущих, чел.</th>
+                        <th style="vertical-align: middle;">Плотность, чел/км^2</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items_economics %}
+                    <tr>
+                        <td>{{ item.year }}</td>
+                        <td>{{ item.region.okato_name }}</td>
+
+                        <td>{{ item.real_income}}</td>
+                        <td>{{ item.unemployment}}</td>
+                        <td>{{ item.cpi}}</td>
+                        <td>{{ item.pensions}}</td>
+                        <td>{{ item.poor}}</td>
+                        <td>{{ item.density}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <br>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap.min.js"></script>
+<script src="{{url_for('static', filename='multiselect.js')}}"></script>
+
+
+<script>
+
+    $('<h5 class="loading text-center">Loading...</5>').appendTo('.tab-content');
+
+    $(document).ready(function () {
+
+        $('#data_general').DataTable({
+
+            "iDisplayLength": -1,
+            "searching": false,
+            "lengthChange": false,
+            "paging": false,
+            "responsive": true,
+            "info": false,
+            "scrollY": '38vh',
+            columnDefs: [{
+                target: [2, 3, 4, 5],
+                className: "dt-body-center",
+                render: function (data) {
+                    var number = $.fn.dataTable.render.number('', '.', 0).display(data);
+                    return number;
+                }
+            },
+            {
+                target: [6, 7, 8, 9, 10, 11, 12],
+                className: "dt-body-center",
+                render: function (data) {
+                    var number = $.fn.dataTable.render.number('', '.', 3).display(data);
+                    return number;
+                }
+            },
+
+            ],
+            "initComplete": function () {
+                $('.loading').remove();
+
+                $('#general').show()
+
+            },
+        }).columns.adjust().responsive.recalc().draw();
+
+        $('#data_births').DataTable({
+            "iDisplayLength": -1,
+            "searching": false,
+            "lengthChange": false,
+            "paging": false,
+            "responsive": true,
+            "info": false,
+            "scrollY": '38vh',
+            columnDefs: [{
+                target: [2, 3],
+                className: "dt-body-center",
+                render: function (data) {
+                    var number = $.fn.dataTable.render.number('', '.', 0).display(data);
+                    return number;
+                }
+            },
+            {
+                target: [4, 5, 6, 7, 8],
+                className: "dt-body-center",
+                render: function (data) {
+                    var number = $.fn.dataTable.render.number('', '.', 3).display(data);
+                    return number;
+                }
+            },
+            ],
+
+        });
+        
+        $('#data_birth_rates').DataTable({
+            "iDisplayLength": -1,
+            "searching": false,
+            "lengthChange": false,
+            "paging": false,
+            "responsive": true,
+            "info": false,
+            "scrollY": '38vh',
+            columnDefs: [{
+                target: [4],
+                className: "dt-body-center",
+                render: function (data) {
+                    var number = $.fn.dataTable.render.number('', '.', 3).display(data);
+                    return number;
+                }
+            },
+            ],
+
+        });
+
+        $('#data_deaths').DataTable({
+            "iDisplayLength": -1,
+            "searching": false,
+            "lengthChange": false,
+            "paging": false,
+            "responsive": true,
+            "info": false,
+            "scrollY": '38vh',
+            columnDefs: [{
+                target: [2, 3],
+                className: "dt-body-center",
+                render: function (data) {
+                    var number = $.fn.dataTable.render.number('', '.', 0).display(data);
+                    return number;
+                }
+            },
+            {
+                target: [5, 6, 7],
+                className: "dt-body-center",
+                render: function (data) {
+                    var number = $.fn.dataTable.render.number('', '.', 3).display(data);
+                    return number;
+                }
+            },
+            {
+                target: [4],
+                className: "dt-body-center",
+                render: function (data) {
+                    var number = $.fn.dataTable.render.number('', '.', 2).display(data);
+                    return number;
+                }
+            },
+            ],
+        });
+
+        $('#data_death_rates').DataTable({
+            "iDisplayLength": -1,
+            "searching": false,
+            "lengthChange": false,
+            "paging": false,
+            "responsive": true,
+            "info": false,
+            "scrollY": '38vh',
+            columnDefs: [{
+                target: [4],
+                className: "dt-body-center",
+                render: function (data) {
+                    var number = $.fn.dataTable.render.number('', '.', 3).display(data);
+                    return number;
+                }
+            },
+            ],
+
+        });
+
+        $('#data_migration').DataTable({
+            "iDisplayLength": -1,
+            "searching": false,
+            "lengthChange": false,
+            "paging": false,
+            "responsive": true,
+            "info": false,
+            "scrollY": '38vh',
+            columnDefs: [{
+                target: [2, 3, 4, 5],
+                className: "dt-body-center",
+                render: function (data) {
+                    var number = $.fn.dataTable.render.number('', '.', 0).display(data);
+                    return number;
+                }
+            },
+            {
+                target: [6, 7, 8, 9, 10, 11, 12],
+                className: "dt-body-center",
+                render: function (data) {
+                    var number = $.fn.dataTable.render.number('', '.', 3).display(data);
+                    return number;
+                }
+            },
+
+
+            ],
+
+        });
+
+        $('#data_structure').DataTable({
+            "iDisplayLength": -1,
+            "searching": false,
+            "lengthChange": false,
+            "paging": false,
+            "responsive": true,
+            "info": false,
+            "scrollY": '38vh',
+            columnDefs: [{
+                target: [2, 3, 4],
+                className: "dt-body-center",
+                render: function (data) {
+                    var number = $.fn.dataTable.render.number('', '.', 0).display(data);
+                    return number;
+                }
+            },
+            {
+                target: [5, 6, 7, 8, 9],
+                className: "dt-body-center",
+                render: function (data) {
+                    var number = $.fn.dataTable.render.number('', '.', 3).display(data);
+                    return number;
+                }
+            },
+
+
+            ],
+
+        });
+
+        $('#data_marriage').DataTable({
+            "iDisplayLength": -1,
+            "searching": false,
+            "lengthChange": false,
+            "paging": false,
+            "responsive": true,
+            "info": false,
+            "scrollY": '38vh',
+            columnDefs: [{
+                target: [2, 3],
+                className: "dt-body-center",
+                render: function (data) {
+                    var number = $.fn.dataTable.render.number('', '.', 0).display(data);
+                    return number;
+                }
+            },
+            {
+                target: [4, 5, 6, 7],
+                className: "dt-body-center",
+                render: function (data) {
+                    var number = $.fn.dataTable.render.number('', '.', 3).display(data);
+                    return number;
+                }
+            },
+
+
+            ],
+
+        });
+
+        $('#data_economics').DataTable({
+            "iDisplayLength": -1,
+            "searching": false,
+            "lengthChange": false,
+            "paging": false,
+            "responsive": true,
+            "info": false,
+            "scrollY": '38vh',
+            columnDefs: [{
+                target: [6],
+                className: "dt-body-center",
+                render: function (data) {
+                    var number = $.fn.dataTable.render.number('', '.', 0).display(data);
+                    return number;
+                }
+            },
+            {
+                target: [2, 3, 4, 5, 7],
+                className: "dt-body-center",
+                render: function (data) {
+                    var number = $.fn.dataTable.render.number('', '.', 3).display(data);
+                    return number;
+                }
+            },
+
+
+            ],
+
+        });
+        $('.dataTables_length').addClass('bs-select');
+
+        $(document).on('click', 'a[data-toggle="tab"]', function (e) {
+            $.fn.dataTable.tables({ visible: true, api: true })
+                .columns.adjust()
+                .responsive.recalc()
+                .draw();
+        });
+    });
+</script>
+{% endblock %}

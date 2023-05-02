@@ -1,0 +1,39 @@
+<form action="" method="POST">
+
+    {{ form.csrf_token }}
+    <div class="form-row">
+        <div class="form-group col-md-6 col-md-8">
+
+            <label for="sex" class="form-label">{{form.sex.label}}</label>
+            {{ form.sex(class="form-control custom-select",id="sex",required="required") }}
+            <br>
+
+            <label for="period" class="form-label">{{form.type.label}}</label>
+            {{ form.type(class="form-control custom-select",id="type",required="required") }}
+
+        </div>
+
+        <div class="form-group col-md-12 col-md-6 col-md-8 col-md-9">
+
+            <div class="custom_multiselect">
+                <label for="region" class="form_text form-label">{{form.region.label}}</label>
+                <div class="multiselect_block">
+                    <label class="field_multiselect">{{ _('Select region') }}</label>
+                    <input id="checkbox-2" class="multiselect_checkbox" type="checkbox">
+                    <label for="checkbox-2" class="multiselect_label"></label>
+                    {{ form.region(class="custom_field_select",id="region",required="required") }}
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            {{ form.submit(class="btn btn-primary") }}
+
+        </div>
+
+    </div>
+</form>

@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{%- block styles %}
+{{ super() }}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='multiselect.css')}}">
+
+{%- endblock styles %}
+
+{% block app_content %}
+<h3>{{ title }}
+    <a class="btn" data-toggle="collapse" href="#collapseForm" role="button" style="box-shadow: none"
+        onclick="change_img()" aria-expanded="true" aria-controls="collapseForm">
+        <script>
+            function change_img() {
+                img1 = document.getElementById('img1');
+                img2 = document.getElementById('img2');
+                if (img1.style.display == "none") {
+                    img1.style.display = "inline";
+                    img2.style.display = "none";
+                }
+                else {
+                    img1.style.display = "none";
+                    img2.style.display = "inline";
+                }
+            } 
+        </script>
+        <svg id="img1" xmlns="http://www.w3.org/2000/svg" width="14" height="14" class="bi bi-caret-down-fill"
+            viewBox="0 0 16 16" style="display:inline;">
+            <path
+                d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+        </svg>
+        <svg id="img2" xmlns="http://www.w3.org/2000/svg" width="14" height="14" class="bi bi-caret-up-fill"
+            viewBox="0 0 16 16" style="display:none;">
+            <path
+                d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
+        </svg>
+    </a>
+</h3>
+<div class="collapse" id="collapseForm" data-toggle="false">
+    {% include '_forecast_form.html' %}
+</div>
+
+
+<div id="data_div" style="display: none;">
+    <table id="data" class="table table-striped table-condensed">
+        <thead>
+            <tr>
+                <th style="vertical-align: middle;">Год</th>
+                <th style="vertical-align: middle;">Базовый год</th>
+                <th style="vertical-align: middle;">Период, лет</th>
+                <th style="vertical-align: middle;">Субъект</th>
+                <th style="vertical-align: middle;">Экстраполяция по приросту, чел.</th>
+                <th style="vertical-align: middle;">Экстраполяция по темпу роста, чел.</th>
+                <th style="vertical-align: middle;">Экстраполяция по экспоненте, чел.</th>
+                <th style="vertical-align: middle;">Передвижки, чел.</th>
+                <th style="vertical-align: middle;">Выравнивание по прямой, чел.</th>
+                <th style="vertical-align: middle;">Кривая роста Гомперца, чел.</th>
+                <th style="vertical-align: middle;">LSTM, чел.</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.year }}</td>
+                <td>{{ item.base_year }}</td>
+                <td>{{ item.period }}</td>
+                <td>{{ item.region.okato_name }}</td>
+                <td>{{ item.ext_inc }}</td>
+                <td>{{ item.ext_gr }}</td>
+                <td>{{ item.ext_exp }}</td>
+                <td>{{ item.movements }}</td>
+                <td>{{ item.straight }}</td>
+                <td>{{ item.gomp_curve }}</td>
+                <td>{{ item.lstm }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </tbody>
+    </table>
+
+</div>
+<div id="loading_div"></div>
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap.min.js"></script>
+
+<script src="{{url_for('static', filename='multiselect.js')}}"></script>
+<script src="{{url_for('static', filename='lang.js')}}"></script>
+
+
+<script>
+    $('<h5 class="loading text-center">Loading...</5>').appendTo('#loading_div');
+
+    $(document).ready(function () {
+        var table = $('#data').DataTable({
+            "iDisplayLength": 7,
+            "pagingType": 'simple_numbers',
+            "aLengthMenu": [[5, 7, 10, 25, 50, 100, -1], [5, 7, 10, 25, 50, 100, "All"]],
+            "scrollX": true,
+            "scrollY": '55vh',
+            "oLanguage": lang_opts,
+            "columnDefs": [
+                {
+                    target: [4, 5, 6, 7, 8, 9, 10],
+                    className: "text-center",
+                    render: function (data) {
+                        var number = $.fn.dataTable.render
+                            .number('', '.', 0)
+                            .display(data);
+                        return number;
+                    }
+                },
+            ],
+            "initComplete": function () {
+                $('.loading').remove();
+                $('#data_div').show()
+
+            },
+            
+ 
+        }).columns.adjust().responsive.recalc().draw();
+        $('.dataTables_length').addClass('bs-select');
+    });
+
+</script>
+{% endblock %}

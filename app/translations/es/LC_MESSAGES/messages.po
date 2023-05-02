@@ -1,0 +1,531 @@
+# Spanish translations for PROJECT.
+# Copyright (C) 2020 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-05-02 21:29+0300\n"
+"PO-Revision-Date: 2020-05-03 18:11+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+#: app/__init__.py:47
+msgid "Please log in to access this page."
+msgstr "Por favor ingrese para acceder a esta página."
+
+#: app/emailf.py:20
+msgid "[SADI] Reset Your Password"
+msgstr "[SADI] Nueva Contraseña"
+
+#: app/forms.py:9 app/forms.py:27 app/forms.py:34
+msgid "Username"
+msgstr "Nombre de usuario"
+
+#: app/forms.py:10 app/forms.py:51
+msgid "Email"
+msgstr "Email"
+
+#: app/forms.py:11 app/forms.py:28 app/forms.py:56
+msgid "Password"
+msgstr "Contraseña"
+
+#: app/forms.py:12 app/forms.py:58
+msgid "Repeat Password"
+msgstr "Repetir Contraseña"
+
+#: app/forms.py:13 app/routes.py:415 app/templates/register.html:8
+msgid "Register"
+msgstr "Registrarse"
+
+#: app/forms.py:18 app/forms.py:47
+msgid "Please use a different username."
+msgstr "Por favor use un nombre de usuario diferente."
+
+#: app/forms.py:23
+msgid "Please use a different email address."
+msgstr "Por favor use una dirección de email diferente."
+
+#: app/forms.py:29
+msgid "Remember Me"
+msgstr "Recordarme"
+
+#: app/forms.py:30 app/routes.py:466 app/templates/login.html:9
+msgid "Sign In"
+msgstr "Ingresar"
+
+#: app/forms.py:35
+msgid "About me"
+msgstr "Acerca de mí"
+
+#: app/forms.py:36 app/forms.py:64
+msgid "Submit"
+msgstr "Enviar"
+
+#: app/forms.py:37
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: app/forms.py:52 app/forms.py:59
+msgid "Request Password Reset"
+msgstr "Pedir una nueva contraseña"
+
+#: app/forms.py:63
+msgid "Say something"
+msgstr "Dí algo"
+
+#: app/forms.py:68 app/forms.py:116
+msgid "Base year"
+msgstr "Año base"
+
+#: app/forms.py:69 app/forms.py:117
+msgid "Forecast period"
+msgstr "Período de pronóstico"
+
+#: app/forms.py:70 app/forms.py:88
+msgid "Regions"
+msgstr "Regiones"
+
+#: app/forms.py:71 app/routes.py:258
+msgid "Forecast"
+msgstr "Pronóstico"
+
+#: app/forms.py:86 app/forms.py:100 app/forms.py:101 app/forms.py:105
+msgid "Sex"
+msgstr "Sexo"
+
+#: app/forms.py:86 app/forms.py:105 app/routes.py:126
+msgid "Female"
+msgstr "Femenino"
+
+#: app/forms.py:86 app/forms.py:105
+#, fuzzy
+msgid "Мale"
+msgstr "Masculino"
+
+#: app/forms.py:86 app/forms.py:105
+#, fuzzy
+msgid "Both"
+msgstr "Nacimientos"
+
+#: app/forms.py:87
+msgid "Types"
+msgstr "Tipos"
+
+#: app/forms.py:87 app/forms.py:106
+#, fuzzy
+msgid "Urban population"
+msgstr "Población rusa por regiones"
+
+#: app/forms.py:87 app/forms.py:106
+#, fuzzy
+msgid "Rural population"
+msgstr "Población rusa por regiones"
+
+#: app/forms.py:87 app/forms.py:106
+msgid "All population"
+msgstr ""
+
+#: app/forms.py:89
+msgid "Find"
+msgstr "Buscar"
+
+#: app/forms.py:100
+msgid "Category"
+msgstr "Categoría"
+
+#: app/forms.py:100 app/forms.py:101 app/forms.py:104
+msgid "Year"
+msgstr "Año"
+
+#: app/forms.py:100 app/forms.py:101 app/forms.py:106
+msgid "Type"
+msgstr "Tipo"
+
+#: app/forms.py:100 app/forms.py:101 app/forms.py:107
+msgid "Region"
+msgstr "Región"
+
+#: app/forms.py:101
+msgid "Category2"
+msgstr "Categoría2"
+
+#: app/forms.py:103
+msgid "Parameters"
+msgstr "Parámetros"
+
+#: app/forms.py:109
+msgid "Title"
+msgstr "Título"
+
+#: app/forms.py:110
+msgid "Subtitle"
+msgstr "Subtítulo"
+
+#: app/forms.py:111
+msgid "Chart type"
+msgstr "Tipo de gráfico"
+
+#: app/forms.py:111
+msgid "Line graph"
+msgstr "Gráfico de líneas"
+
+#: app/forms.py:111
+msgid "Area chart"
+msgstr "Gráfico de área"
+
+#: app/forms.py:111
+msgid "Bar chart"
+msgstr "Gráfico de barras"
+
+#: app/forms.py:112
+msgid "Stacked bar chart"
+msgstr "Gráfico de barras apiladas"
+
+#: app/forms.py:112
+msgid "Scatter plot"
+msgstr "Gráfica de dispersión"
+
+#: app/forms.py:113
+msgid "Column chart"
+msgstr "Gráfico de columnas"
+
+#: app/forms.py:113
+msgid "Stacked column chart"
+msgstr "Gráfico de columnas apiladas"
+
+#: app/forms.py:115
+msgid "Add forecast data"
+msgstr "Agregar datos de pronóstico"
+
+#: app/forms.py:118
+msgid "Forecast type"
+msgstr "Tipo de pronóstico"
+
+#: app/forms.py:120
+msgid "Draw"
+msgstr "Dibujar"
+
+#: app/routes.py:83 app/templates/base.html:44
+msgid "Data"
+msgstr "Datos"
+
+#: app/routes.py:125
+msgid "Male"
+msgstr "Masculino"
+
+#: app/routes.py:204
+msgid "No data was found. Try to change chart settings."
+msgstr "No se encontraron datos. Intente cambiar la configuración del gráfico."
+
+#: app/routes.py:216 app/templates/base.html:46 app/templates/charts.html:17
+msgid "Charts"
+msgstr "Gráficos"
+
+#: app/routes.py:234
+msgid "SADI"
+msgstr "SADI"
+
+#: app/routes.py:272 app/routes.py:298
+msgid "Your post is now live!"
+msgstr "¡Tu artículo ha sido publicado!"
+
+#: app/routes.py:281
+msgid "Blog"
+msgstr "Blog"
+
+#: app/routes.py:324
+msgid "Your changes have been saved."
+msgstr "Tus cambios han sido salvados."
+
+#: app/routes.py:329 app/templates/edit_profile.html:8
+msgid "Edit Profile"
+msgstr "Editar Perfil"
+
+#: app/routes.py:346
+msgid "Followers"
+msgstr "Seguidor"
+
+#: app/routes.py:364
+msgid "Following"
+msgstr "Siguiendo"
+
+#: app/routes.py:376 app/routes.py:392
+#, python-format
+msgid "User %(username)s not found."
+msgstr "El usuario %(username)s no ha sido encontrado."
+
+#: app/routes.py:379
+msgid "You cannot follow yourself!"
+msgstr "¡No te puedes seguir a tí mismo!"
+
+#: app/routes.py:383
+#, python-format
+msgid "You are following %(username)s!"
+msgstr "¡Ahora estás siguiendo a %(username)s!"
+
+#: app/routes.py:395
+msgid "You cannot unfollow yourself!"
+msgstr "¡No te puedes dejar de seguir a tí mismo!"
+
+#: app/routes.py:399
+#, python-format
+msgid "You are not following %(username)s."
+msgstr "No estás siguiendo a %(username)s."
+
+#: app/routes.py:413
+msgid "Congratulations, you are now a registered user!"
+msgstr "¡Felicitaciones, ya eres un usuario registrado!"
+
+#: app/routes.py:428
+msgid "Check your email for the instructions to reset your password"
+msgstr "Busca en tu email las instrucciones para crear una nueva contraseña"
+
+#: app/routes.py:431 app/templates/reset_password_request.html:9
+msgid "Reset Password"
+msgstr "Nueva Contraseña"
+
+#: app/routes.py:445
+msgid "Your password has been reset."
+msgstr "Su contraseña ha sido restablecida."
+
+#: app/routes.py:447
+msgid "Reset password"
+msgstr "Restablecer contraseña"
+
+#: app/routes.py:459
+msgid "Invalid username or password"
+msgstr "Nombre de usuario o contraseña inválidos"
+
+#: app/templates/404.html:4
+msgid "File Not Found"
+msgstr "Página No Encontrada"
+
+#: app/templates/404.html:9 app/templates/500.html:10
+msgid "Go to Home"
+msgstr "Inicio"
+
+#: app/templates/500.html:4
+msgid "An unexpected error has occurred"
+msgstr "Ha ocurrido un error inesperado"
+
+#: app/templates/500.html:5
+msgid "The administrator has been notified. Sorry for the inconvenience!"
+msgstr "El administrador ha sido notificado. ¡Lamentamos la inconveniencia!"
+
+#: app/templates/_chart_form.html:9
+msgid "Chart properties"
+msgstr "Propiedades del gráfico"
+
+#: app/templates/_chart_form.html:21
+msgid "Enter chart title"
+msgstr "Ingrese el título del gráfico"
+
+#: app/templates/_chart_form.html:25
+msgid "Enter chart subtitle"
+msgstr "Introducir subtítulo de gráfico"
+
+#: app/templates/_chart_form.html:34
+msgid "Data properties"
+msgstr "Propiedades de datos"
+
+#: app/templates/_chart_form.html:107 app/templates/_forecast_form.html:11
+msgid "Enter base year"
+msgstr "Introduzca el año base"
+
+#: app/templates/_chart_form.html:114 app/templates/_forecast_form.html:18
+msgid "Enter period"
+msgstr "Introducir período"
+
+#: app/templates/_data_info_form.html:21 app/templates/_forecast_form.html:27
+msgid "Select region"
+msgstr "Seleccionar región"
+
+#: app/templates/_folls.html:15
+#, python-format
+msgid "%(username)s "
+msgstr "%(username)s "
+
+#: app/templates/_folls.html:16 app/templates/user.html:12
+msgid "Last seen on"
+msgstr "Última visita"
+
+#: app/templates/_post.html:14
+#, python-format
+msgid "%(username)s said %(when)s:"
+msgstr "%(username)s dijo %(when)s:"
+
+#: app/templates/base.html:5
+msgid "Welcome to SADI"
+msgstr "Bienvenido a SADI"
+
+#: app/templates/base.html:43
+msgid "Home"
+msgstr "Inicio"
+
+#: app/templates/base.html:45
+msgid "Forecasts"
+msgstr "Previsiones"
+
+#: app/templates/base.html:51
+msgid "Login"
+msgstr "Ingresar"
+
+#: app/templates/base.html:54
+msgid "Profile"
+msgstr "Perfil"
+
+#: app/templates/base.html:55
+msgid "Forum"
+msgstr "Foro"
+
+#: app/templates/base.html:56
+msgid "Logout"
+msgstr "Salir"
+
+#: app/templates/blog.html:6
+#, python-format
+msgid "Hi, %(username)s! It's time to discuss something important!"
+msgstr "Hola, %(username)s! ¡Es hora de discutir algo importante!"
+
+#: app/templates/blog.html:19 app/templates/follow_ers_ings.html:13
+#: app/templates/user.html:42
+msgid "Newer posts"
+msgstr "Artículos siguientes"
+
+#: app/templates/blog.html:24 app/templates/follow_ers_ings.html:23
+#: app/templates/user.html:47
+msgid "Older posts"
+msgstr "Artículos previos"
+
+#: app/templates/charts.html:49
+msgid "Select all"
+msgstr "Seleccionar todo"
+
+#: app/templates/charts.html:50
+msgid "Search"
+msgstr "Buscar"
+
+#: app/templates/charts.html:51
+msgid "None selected"
+msgstr "Ninguna seleccionada"
+
+#: app/templates/charts.html:52
+msgid "selected"
+msgstr "seleccionados"
+
+#: app/templates/charts.html:53
+msgid "All selected"
+msgstr "Todos seleccionados"
+
+#: app/templates/data_info.html:25
+msgid "General"
+msgstr "Generalidades"
+
+#: app/templates/data_info.html:26
+msgid "Births"
+msgstr "Nacimientos"
+
+#: app/templates/data_info.html:27
+msgid "Birth rates"
+msgstr "Tasas de natalidad"
+
+#: app/templates/data_info.html:28
+msgid "Deaths"
+msgstr "Muertes"
+
+#: app/templates/data_info.html:30
+msgid "Death rates"
+msgstr "Tasas de mortalidad"
+
+#: app/templates/data_info.html:33
+msgid "Migration"
+msgstr "Migración"
+
+#: app/templates/data_info.html:36
+msgid "Structure"
+msgstr "Estructura"
+
+#: app/templates/data_info.html:38
+msgid "Marriage"
+msgstr "Matrimonio"
+
+#: app/templates/data_info.html:41
+msgid "Economics"
+msgstr "Economía"
+
+#: app/templates/follow_ers_ings.html:5
+#, python-format
+msgid "My %(follow)s"
+msgstr "Mi %(follow)s"
+
+#: app/templates/follow_ers_ings.html:18
+msgid "Back to profile"
+msgstr "Volver al perfil"
+
+#: app/templates/index.html:16
+msgid "Russian population by regions"
+msgstr "Población rusa por regiones"
+
+#: app/templates/index.html:197
+msgid "Total"
+msgstr "Total"
+
+#: app/templates/index.html:197
+msgid "million"
+msgstr "millones"
+
+#: app/templates/login.html:13
+msgid "New User?"
+msgstr "¿Usuario Nuevo?"
+
+#: app/templates/login.html:13
+msgid "Click to Register!"
+msgstr "¡Haz click aquí para registrarte!"
+
+#: app/templates/login.html:15
+msgid "Forgot Your Password?"
+msgstr "¿Te olvidaste tu contraseña?"
+
+#: app/templates/login.html:16
+msgid "Click to Reset It"
+msgstr "Haz click aquí para pedir una nueva"
+
+#: app/templates/reset_password.html:9
+msgid "Reset Your Password"
+msgstr "Nueva Contraseña"
+
+#: app/templates/user.html:9
+msgid "User"
+msgstr "Usuario"
+
+#: app/templates/user.html:14
+#, python-format
+msgid "%(count)d followers"
+msgstr "%(count)d seguidores"
+
+#: app/templates/user.html:15
+#, python-format
+msgid "%(count)d following"
+msgstr "siguiendo a %(count)d"
+
+#: app/templates/user.html:18
+msgid "Edit your profile"
+msgstr "Editar tu perfil"
+
+#: app/templates/user.html:20
+msgid "Follow"
+msgstr "Seguir"
+
+#: app/templates/user.html:22
+msgid "Unfollow"
+msgstr "Dejar de seguir"
+

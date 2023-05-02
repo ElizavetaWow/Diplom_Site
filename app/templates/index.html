@@ -1,0 +1,376 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{%- block styles %}
+{{ super() }}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='multiselect.css')}}">
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
+{%- endblock styles %}
+
+{% block app_content %}
+<h3>{{ _('Russian population by regions') }}</h3>
+
+<div class="row">
+    <div id="col1" class="col-md-12 col-sm-12 col-lg-12">
+
+        <div id="chart" class="chart"></div>
+
+        <div id="play-controls">
+            <button id="play-pause-button" class="fa fa-play" title="play"><span class="glyphicon glyphicon-play"
+                    aria-hidden="true"></span></button>
+            <input id="play-range" type="range" value="1990" min="1990" max="2022"  />
+        </div>
+    </div>
+
+</div>
+
+
+
+<style>
+    .chart {
+        display: flex;
+        align-items: center;
+        height: calc(100vh - 265px);
+    }
+
+    #play-pause-button {
+        margin-left: 10px;
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
+        border: 1px solid rgba(2, 117, 255, 1);
+        border-radius: 25px;
+        color: white;
+        background-color: rgba(2, 117, 255, 1);
+        transition: background-color 250ms;
+
+        display:inline-block;
+        margin-right:10px;
+    }
+    #play-range{
+        display:inline-block;
+        width:  calc(100% - 80px);
+    }
+
+    .fa {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        transform: translate(0, 0);
+    }
+
+    #play-controls {
+        display: block;
+        max-width: 1000px;
+        margin: 1em auto;
+        max-height: 50px;
+    }
+</style>
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap.min.js"></script>
+
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+
+
+<script>
+    const startYear = 1990,
+        endYear = 2022,
+        btn = document.getElementById('play-pause-button'),
+        input = document.getElementById('play-range'),
+        nbr = 85;
+
+    let dataset, chart;
+
+
+    /*
+     * Animate dataLabels functionality
+     */
+    (function (H) {
+        const FLOAT = /^-?\d+\.?\d*$/;
+
+        // Add animated textSetter, just like fill/strokeSetters
+        H.Fx.prototype.textSetter = function () {
+            let startValue = this.start.replace(/ /g, ''),
+                endValue = this.end.replace(/ /g, ''),
+                currentValue = this.end.replace(/ /g, '');
+
+            if ((startValue || '').match(FLOAT)) {
+                startValue = parseInt(startValue, 10);
+                endValue = parseInt(endValue, 10);
+
+                // No support for float
+                currentValue = Highcharts.numberFormat(
+                    Math.round(startValue + (endValue - startValue) * this.pos),
+                    0
+                );
+            }
+
+            this.elem.endText = this.end;
+
+            this.elem.attr(this.prop, currentValue, null, true);
+        };
+
+        // Add textGetter, not supported at all at this moment:
+        H.SVGElement.prototype.textGetter = function () {
+            const ct = this.text.element.textContent || '';
+            return this.endText ? this.endText : ct.substring(0, ct.length / 2);
+        };
+
+        // Temporary change label.attr() with label.animate():
+        // In core it's simple change attr(...) => animate(...) for text prop
+        H.wrap(H.Series.prototype, 'drawDataLabels', function (proceed) {
+            const attr = H.SVGElement.prototype.attr,
+                chart = this.chart;
+
+            if (chart.sequenceTimer) {
+                this.points.forEach(point =>
+                    (point.dataLabels || []).forEach(
+                        label =>
+                        (label.attr = function (hash) {
+                            if (hash && hash.text !== undefined) {
+                                const text = hash.text;
+
+                                delete hash.text;
+
+                                return this
+                                    .attr(hash)
+                                    .animate({ text });
+                            }
+                            return attr.apply(this, arguments);
+
+                        })
+                    )
+                );
+            }
+
+            const ret = proceed.apply(
+                this,
+                Array.prototype.slice.call(arguments, 1)
+            );
+
+            this.points.forEach(p =>
+                (p.dataLabels || []).forEach(d => (d.attr = attr))
+            );
+
+            return ret;
+        });
+    }(Highcharts));
+
+
+    function getData(year) {
+        const output = Object.entries(dataset)
+            .map(country => {
+                const [countryName, countryData] = country;
+                numb = Number(countryData[year])
+                if (!numb) {numb=0}
+                return [countryName, numb];
+            })
+            .sort((a, b) => b[1] - a[1]);
+        return [output[0], output.slice(1, nbr)];
+    }
+
+    function getSubtitle() {
+        const population = (getData(input.value)[0][1] / 1000000).toFixed(2);
+        return `<span style="font-size: 80px">${input.value}</span>
+        <br>
+        <span style="font-size: 22px">
+            {{_('Total')}} <b>: ${population}</b> {{_('million')}}
+        </span>`;
+    }
+
+
+
+    (async () => {
+
+        dataset = {{ dataset | safe }}
+
+    chart = Highcharts.chart('chart', {
+        chart: {
+            animation: {
+                duration: 500
+            },
+            marginRight: 50
+        },
+        title: {
+            text: '',
+            align: 'left'
+        },
+        subtitle: {
+            useHTML: true,
+            text: getSubtitle(),
+            floating: true,
+            align: 'right',
+            verticalAlign: 'middle',
+            y: -20,
+            x: -100
+        },
+
+        legend: {
+            enabled: false
+        },
+        xAxis: {
+            type: 'category',
+            labels : {
+            enabled : true,
+            style : {
+               fontWeight : "bold"
+            }
+        }},
+        yAxis: {
+            opposite: true,
+            tickPixelInterval: 150,
+            title: {
+                text: null
+            }
+        },
+        plotOptions: {
+            series: {
+                animation: false,
+                groupPadding: 0,
+                pointPadding: 0.1,
+                borderWidth: 0,
+                colorByPoint: true,
+                dataSorting: {
+                    enabled: true,
+                    matchByName: true
+                },
+                type: 'bar',
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+        series: [
+            {
+                type: 'bar',
+                name: startYear,
+                data: getData(startYear)[1]
+            }
+        ],
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 550
+                },
+                chartOptions: {
+                    xAxis: {
+                        visible: false
+                    },
+                    subtitle: {
+                        x: 0
+                    },
+                    plotOptions: {
+                        series: {
+                            dataLabels: [{
+                                enabled: true,
+                                y: 8
+                            }, {
+                                enabled: true,
+                                format: '{point.name}',
+                                y: -8,
+                                style: {
+                                    fontWeight: 'normal',
+                                    opacity: 0.7
+                                }
+                            }]
+                        }
+                    }
+                }
+            }]
+        }
+    });
+    }) ();
+
+    /*
+     * Pause the timeline, either when the range is ended, or when clicking the pause button.
+     * Pausing stops the timer and resets the button to play mode.
+     */
+    function pause(button) {
+        button.title = 'play';
+        button.className = 'fa fa-play';
+        button.innerHTML = '<span class="glyphicon glyphicon-pause" aria-hidden="true"></span>'
+        clearTimeout(chart.sequenceTimer);
+        chart.sequenceTimer = undefined;
+    }
+
+    /*
+     * Update the chart. This happens either on updating (moving) the range input,
+     * or from a timer when the timeline is playing.
+     */
+    function update(increment) {
+        if (increment) {
+            input.value = parseInt(input.value, 10) + increment;
+        }
+        if (input.value >= endYear) {
+            // Auto-pause
+            pause(btn);
+            btn.innerHTML = '<span class="glyphicon glyphicon-play" aria-hidden="true"></span>'
+        }
+
+        chart.update(
+            {
+                subtitle: {
+                    text: getSubtitle()
+                }
+            },
+            false,
+            false,
+            false
+        );
+        chart.series[0].update({
+            name: input.value,
+            data: getData(input.value)[1]
+        });
+    }
+
+    /*
+     * Play the timeline.
+     */
+    function play(button) {
+        button.title = 'pause';
+        button.className = 'fa fa-pause';
+        button.innerHTML = '<span class="glyphicon glyphicon-play" aria-hidden="true"></span>'
+        chart.sequenceTimer = setInterval(function () {
+            update(1);
+        }, 500);
+    }
+
+    btn.addEventListener('click', function () {
+        if (chart.sequenceTimer) {
+            pause(this);
+        } else {
+            play(this);
+        }
+    });
+    /*
+     * Trigger the update on the range bar click.
+     */
+    input.addEventListener('click', function () {
+        update();
+    });
+    btn.dispatchEvent(new Event('click'))
+</script>
+
+
+
+{% endblock %}

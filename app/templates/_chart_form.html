@@ -1,0 +1,135 @@
+<form action="" method="POST">
+
+    {{ form.csrf_token }}
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+
+                    {{ _('Chart properties') }}
+
+                </h4>
+            </div>
+
+            <div class="panel-body">
+                <label for="chart_type" class="form-label">{{ form.chart_type.label}}</label>
+                {{ form.chart_type(class="form-control custom-select",id="chart_type",required="required")
+                }}
+                <br>
+                <label for="chart_title" class="form-label">{{ form.chart_title.label}}</label>
+                {{ form.chart_title(class="form-control",id="chart_title",required="required",
+                placeholder=_("Enter chart title")) }}
+                <br>
+                <label for="chart_subtitle" class="form-label">{{ form.chart_subtitle.label}}</label>
+                {{ form.chart_subtitle(class="form-control",id="chart_subtitle",required="required",
+                placeholder=_("Enter chart subtitle")) }}
+                <br>
+            </div>
+
+
+
+            <div class="panel-heading" role="tab" id="headingTwo">
+                <h4 class="panel-title">
+
+                    {{ _('Data properties') }}
+
+                </h4>
+            </div>
+
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="params" class="form-label">{{ form.params.label}}</label>
+                    <br>
+                    {{ form.params(class="form_multiselect",id="params",required="required") }}
+                </div>
+
+                <label for="category" class="form-label">{{ form.category.label}}</label>
+                {{ form.category(class="form-control",id="category",required="required") }}
+                <br>
+
+                <label for="category2" class="form-label">{{ form.category2.label}}</label>
+                {{ form.category2(class="form-control",id="category2",required="required") }}
+                <br>
+
+                <div class="form-group">
+                    <label for="year" class="form-label">{{ form.year.label}}</label>
+                    <br>
+                    <div id="year_div">
+                        {{ form.year(id="year", class="form_multiselect", required="required") }}
+                    </div>
+
+
+                </div>
+                <div class="form-group">
+                    <label for="sex" class="form-label">{{ form.sex.label}}</label>
+                    <br>
+                    <div id="sex_div">
+                        {{ form.sex(class="form_multiselect",id="sex",required="required") }}
+                    </div>
+
+
+                </div>
+                <div class="form-group">
+                    <label for="region_id" class=" form-label">{{ form.region_id.label}}</label>
+                    <br>
+                    <div id="region_div">
+                        {{
+                        form.region_id(class="form_multiselect",id="region_id",required="required")
+                        }}
+                    </div>
+
+
+                </div>
+                <div class="form-group">
+                    <label for="type" class="form-label">{{ form.type.label}}</label>
+                    <br>
+                    <div id="type_div">
+                        {{ form.type(class="form_multiselect",id="type",required="required") }}
+                    </div>
+
+                </div>
+
+                <div class="checkboxes">
+                    <label>{{ form.forecast_check(id="forecast_check") }}
+                        <span>{{form.forecast_check.label.text }}</span>
+                    </label>
+                </div>
+
+
+
+                <div id="forecast_div">
+                    <hr>
+
+                    <label for="base_year" class="form-label">{{ form.base_year.label}}</label>
+
+                    {{ form.base_year(class="form-control",id="base_year",
+                    type="number",value=base_year, min=form.base_year.validators[0].min,
+                    max=form.base_year.validators[0].max, placeholder=_("Enter base year")) }}
+
+                    <br>
+
+                    <label for="period" class="form-label">{{ form.period.label}}</label>
+                    {{ form.period(class="form-control",id="period",
+                    type="number", value=period , min=form.period.validators[0].min,
+                    max=form.period.validators[0].max, placeholder=_("Enter period")) }}
+                    <br>
+                    <div class="form-group">
+                        <label for="forecast_type" class="form-label">{{ form.forecast_type.label}}</label>
+                        <br>
+                        <div id="forecast_type_div">
+                            {{ form.forecast_type(class="form_multiselect",id="forecast_type") }}
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="panel-submit">
+            {{ form.submit(class="btn btn-info", id="btn_smt") }}
+        </div>
+
+    </div>
+
+</form>

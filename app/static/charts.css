@@ -1,0 +1,82 @@
+.checkboxes label {
+    display: inline-block;
+    padding-right: 10px;
+    white-space: nowrap;
+}
+
+.checkboxes input {
+    vertical-align: middle;
+    margin-top: 0px;
+    margin-right: 5px;
+}
+
+.checkboxes label span {
+    vertical-align: middle;
+}
+
+.panel {
+    max-height: calc(100vh - 251px);
+    overflow-y: auto;
+}
+
+.btn-group ul {
+    max-width: 100%;
+}
+
+.panel-submit {
+    width: 100%;
+    padding: 15px;
+
+}
+
+#btn_smt {
+    width: 100%;
+}
+
+.row {
+    height: calc(100vh - 188px);
+    display: flex;
+}
+
+#col1 {
+    padding: 0;
+}
+
+#col2 {
+    background: rgb(245, 245, 245);
+}
+
+.chart {
+    display: flex;
+    align-items: center;
+    height: calc(100vh - 188px);
+}
+
+.highcharts-container {
+    border: 1px solid #5bc0de;
+}
+
+.btn-group,
+.multiselect.dropdown-toggle,
+.form_multiselect {
+    width: 100%;
+    box-shadow: none !important;
+    background-color: #ffffff !important;
+}
+
+.multiselect.dropdown-toggle[aria-expanded="true"] {
+    border: 1px solid rgb(126, 182, 226) !important;
+    box-shadow: 0 0 5px rgb(126, 182, 226) !important;
+}
+
+.multiselect-selected-text,
+.multiselect-selected-text:hover {
+    width: 85%;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.dropdown-menu {
+    overflow-y: auto;
+    max-height: 150px;
+}
