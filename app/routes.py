@@ -211,7 +211,7 @@ def charts(chartID = 'chart_ID', chart_type = 'line'):
         chart_type = chart_type.replace('stacked_', '')
         plotOptions= {'series': {'stacking': 'normal','dataLabels': {'enabled': 'true'}}}
 
-    chart = {"renderTo": chartID, "type": chart_type, 'height': '55%',  "zoomType": 'xy'}
+    chart = {"renderTo": chartID, "type": chart_type,   "zoomType": 'xy'}
     
     return render_template('charts.html',title = _('Charts'), form = form, chartID=chartID, chart=chart, series=series, 
                            ctitle=title, xAxis=xAxis, yAxis=yAxis, subtitle=subtitle, tooltip=tooltip, base_year= base_year, period=period, plotOptions=plotOptions)
