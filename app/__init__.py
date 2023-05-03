@@ -20,7 +20,7 @@ import subprocess
 from pathlib import Path
 
 from sqlalchemy import MetaData
-
+from flask_ngrok import run_with_ngrok
 
 convention = {
     "ix": 'ix_%(column_0_label)s',
@@ -35,6 +35,7 @@ metadata = MetaData(naming_convention=convention)
 
 
 app = Flask(__name__)
+run_with_ngrok(app)
 bootstrap = Bootstrap(app)
 app.config.from_object(Config)
 db = SQLAlchemy(app, metadata=metadata)
