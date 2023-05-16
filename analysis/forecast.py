@@ -6,6 +6,10 @@ from pathlib import Path
 from keras import models
 from sys import argv
 import sys, os
+import torch
+import torch.nn as nn
+import torch.optim as optim
+torch.manual_seed(42)
 
 script, file_path, base_year, t = argv
 
@@ -289,6 +293,158 @@ demographics_forecast.to_csv('./data/demographics_forecast.csv', sep=';', encodi
 
 forecast_df = forecast_df.merge(working_df[['Субъект', 'Год', 'Численность населения']], on=['Субъект', 'Год'], how='left').rename(columns={'Численность населения': 'LSTM'})
 
+
+# #### RBFN
+class RBFN(nn.Module):
+    def __init__(self, centers, n_out=10):
+        super(RBFN, self).__init__()
+        self.n_out = n_out
+        self.n_in = centers.size(1)
+        self.num_centers = centers.size(0)
+
+        self.centers = nn.Parameter(centers)
+        self.beta = nn.Parameter(torch.ones(1,self.num_centers), requires_grad = True)
+        self.linear = nn.Linear(self.num_centers + self.n_in, self.n_out, bias=True)
+        self.initialize_weights()
+
+    def kernel_fun(self, batches):
+        n_input = batches.size(0) 
+        A = self.centers.view(self.num_centers,-1).repeat(n_input,1,1)
+        B = batches.view(n_input,-1).unsqueeze(1).repeat(1,self.num_centers,1)
+        C = torch.exp(-self.beta.mul((A-B).pow(2).sum(2,keepdim=False) ) )
+        return C
+
+    def forward(self, batches):
+        radial_val = self.kernel_fun(batches)
+        class_score = self.linear(torch.cat([batches, radial_val], dim=1))
+        return class_score
+    
+    def initialize_weights(self,):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                m.weight.data.normal_(0, 0.02)
+                m.bias.data.zero_()
+            elif isinstance(m, nn.ConvTranspose2d):
+                m.weight.data.normal_(0, 0.02)
+                m.bias.data.zero_()
+            elif isinstance(m, nn.Linear):
+                m.weight.data.normal_(0, 0.02)
+                m.bias.data.zero_()
+    
+    def print_network(self):
+        num_params = 0
+        for param in self.parameters():
+            num_params += param.numel()
+        print(self)
+        print('Total number of parameters: %d' % num_params)
+        
+class RBFN_TS(object):
+    def __init__(self, args):
+        self.max_epoch = args.epoch
+        self.trainset = args.dataset[0]
+        if args.testset:
+          self.testset = args.dataset[1]
+        else:
+          self.testset = args.dataset[0]
+        self.model_name = args.model_name
+        self.lr = args.lr
+        self.n_in = args.n_in
+        self.n_out = args.n_out
+        self.num_centers = args.num_centers
+        self.centers = torch.rand(self.num_centers,self.n_in)
+
+        self.model = RBFN(self.centers, n_out=self.n_out)
+
+        self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
+        self.loss_fun = nn.MSELoss()
+
+    def train(self, epoch=1):
+        self.model.train()
+        for epoch in range(min(epoch,self.max_epoch)):
+            X = torch.from_numpy(self.trainset[0]).float()
+            Y = torch.from_numpy(self.trainset[1]).float()        
+
+            self.optimizer.zero_grad()             
+            Y_prediction = self.model(X)         
+            cost = self.loss_fun(Y_prediction, Y) 
+            cost.backward()                   
+            self.optimizer.step()                  
+
+            print("[Epoch: {:>4}] cost = {:>.9}".format(epoch + 1, cost.item()))
+        print(" [*] Training finished!")
+
+    def test(self):
+        self.model.eval()
+        X = torch.from_numpy(self.testset[0]).float()
+        Y = torch.from_numpy(self.testset[1]).float()        
+
+        with torch.no_grad():             
+            Y_prediction = self.model(X)         
+            cost = self.loss_fun(Y_prediction, Y[:,:self.n_out])
+
+            #print('Accuracy of the network on test data: %f' % cost.item())
+            #print(" [*] Testing finished!")
+            
+
+    def predict(self, X):
+        self.model.eval()
+        X = torch.from_numpy(X).float()   
+        with torch.no_grad():             
+            Y_prediction = self.model(X)         
+            return Y_prediction
+        
+class Dict(dict):
+    __setattr__ = dict.__setitem__
+    __getattr__ = dict.__getitem__
+
+use_cols = ['Год', 'Субъект', 'Численность населения']
+
+args = Dict(lr = 0.01, epoch = 1000, n_in = n_steps_in, n_out = n_steps_out,
+                num_centers = 100, testset = False,
+                model_name='RBFN', cuda=False)
+
+if Path('./data/demographics_forecast_py.csv').is_file():
+    demographics_forecast = pd.read_csv('./data/demographics_forecast_py.csv', sep=";", decimal=',', encoding='cp1251')
+    working_df = demographics_forecast[demographics_forecast['Базовый год'] == base_year][use_cols+['Базовый год']].reset_index(drop=True)
+    if working_df.shape[0] == 0:
+        working_df = demographics[demographics['Год'] <= base_year][use_cols].reset_index(drop=True)
+        working_df['Базовый год'] = base_year
+else:
+    demographics_forecast = pd.DataFrame(columns=use_cols+['Базовый год'])
+    working_df = demographics[demographics['Год'] <= base_year][use_cols].reset_index(drop=True)
+    working_df['Базовый год'] = base_year
+
+
+
+scalers = {}
+n_features = len(use_cols)-2
+n_steps_in, n_steps_out = 5, 1
+
+model_path = Path(f'./pytorch_models/RBFN_model_{base_year}.txt')
+
+if model_path.is_file():
+  rbfn = RBFN_TS(args)
+  rbfn.model.load_state_dict(torch.load(model_path))
+  for reg in working_df['Субъект'].unique():
+    scalers[reg] = MinMaxScaler()
+    scalers[reg].fit_transform(working_df[(working_df['Субъект'] == reg)&(working_df['Год'] <= base_year)].sort_values(by='Год').drop(columns=['Год', 'Субъект', 'Базовый год']))
+    for t_period in range(t):
+        if (t_period +1) not in (working_df[working_df['Субъект'] == reg]['Год'] - base_year-1).values:
+            scaled_x = scalers[reg].transform(working_df[working_df['Субъект'] == reg][use_cols[2:]])[-n_steps_in:]
+            if scaled_x.flatten().shape[0]%(n_steps_in* n_features) == 0:
+                x_pred_line = scaled_x.reshape((1, n_steps_in, n_features))
+                y_pred_line = rbfn.predict(x_pred_line)
+                y_pred = scalers[reg].inverse_transform(y_pred_line)
+                y_pred = np.clip(y_pred, 0, None).round()
+                y_pred = np.append([base_year+t_period+1, reg], y_pred)
+                working_df = pd.concat([working_df, pd.DataFrame([y_pred], columns=use_cols)], axis=0, ignore_index=True)
+
+working_df['Базовый год'] = base_year
+demographics_forecast = demographics_forecast.drop(index=demographics_forecast[demographics_forecast['Базовый год'] == base_year].index)
+demographics_forecast = pd.concat([demographics_forecast, working_df], ignore_index=True)
+demographics_forecast.to_csv('./data/demographics_forecast_py.csv', sep=';', encoding='cp1251', index=False, decimal=',')
+
+forecast_df = forecast_df.merge(working_df[['Субъект', 'Год', 'Численность населения']], on=['Субъект', 'Год'], how='left').rename(columns={'Численность населения': 'RBFN'})
 
 forecast_df.to_csv("./data/forecast_df.csv", sep=';', mode='a', encoding='cp1251', index=False, decimal=',', header=not os.path.exists("./data/forecast_df.csv"))
 forecast = forecast_df.drop(columns=['Базовая численность'])

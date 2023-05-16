@@ -102,8 +102,8 @@ class ChartForm(FlaskForm):
     
     params = SelectMultipleField(_l('Parameters'), validators=[DataRequired()])
     year = SelectMultipleField(_l('Year'), coerce=int, validators=[DataRequired()])
-    sex = SelectMultipleField(_l('Sex'), choices=[('ж', _l('Female')),('м', _l('Мale')),('все', _l('Both'))], validators=[DataRequired()])
-    type = SelectMultipleField(_l('Type'), choices=[ ('город', _l('Urban population')),('село', _l('Rural population')),('все', _l('All population'))], validators=[DataRequired()])
+    sex = SelectMultipleField(_l('Sex'), choices=[('ж', 'Женский'),('м', 'Мужской'),('все', 'Оба пола')], validators=[DataRequired()])
+    type = SelectMultipleField(_l('Type'), choices=[ ('город', 'Городское население'),('село', 'Сельское население'),('все', 'Всё население')], validators=[DataRequired()])
     region_id = SelectMultipleField(_l('Region'), coerce=int, validators=[DataRequired()])
 
     chart_title = StringField(_l('Title'), validators=[DataRequired()], default=_l('Title'))

@@ -112,7 +112,7 @@ def upload_data():
     
     if not db.session.execute(db.text("SELECT * FROM forecast")).first():
         df = pd.read_csv('./analysis/data/forecast.csv', sep=';', encoding='cp1251', decimal=',').reset_index()
-        df.columns = ['id', 'year','region_id', 'period','ext_inc','ext_gr','ext_exp','movements','straight','gomp_curve', 'lstm']
+        df.columns = ['id', 'year','region_id', 'period','ext_inc','ext_gr','ext_exp','movements','straight','gomp_curve', 'lstm', 'rbfn']
         df['region_id'] = df['region_id'].apply(lambda reg: Region.query.filter_by(okato_name=reg).first().id)
         df['base_year'] = df['year'] - df['period']
         df.to_sql('forecast', con=db.engine, if_exists = "replace", index=False)

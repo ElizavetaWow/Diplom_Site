@@ -21,7 +21,7 @@
         <div id="chart" class="chart"></div>
 
         <div id="play-controls">
-            <button id="play-pause-button" class="fa fa-play" title="play"><span class="glyphicon glyphicon-play"
+            <button id="play-pause-button" class="fa fa-play" title="play"><span class="glyphicon glyphicon-pause"
                     aria-hidden="true"></span></button>
             <input id="play-range" type="range" value="1990" min="1990" max="2022"  />
         </div>
@@ -308,7 +308,7 @@
     function pause(button) {
         button.title = 'play';
         button.className = 'fa fa-play';
-        button.innerHTML = '<span class="glyphicon glyphicon-pause" aria-hidden="true"></span>'
+        button.innerHTML = '<span class="glyphicon glyphicon-play" aria-hidden="true"></span>'
         clearTimeout(chart.sequenceTimer);
         chart.sequenceTimer = undefined;
     }
@@ -349,7 +349,7 @@
     function play(button) {
         button.title = 'pause';
         button.className = 'fa fa-pause';
-        button.innerHTML = '<span class="glyphicon glyphicon-play" aria-hidden="true"></span>'
+        button.innerHTML = '<span class="glyphicon glyphicon-pause" aria-hidden="true"></span>'
         chart.sequenceTimer = setInterval(function () {
             update(1);
         }, 500);

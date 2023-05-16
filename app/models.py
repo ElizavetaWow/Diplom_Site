@@ -27,13 +27,14 @@ class Forecast(db.Model):
     straight = db.Column(db.Integer)
     gomp_curve = db.Column(db.Integer)
     lstm = db.Column(db.Integer)
+    rbfn = db.Column(db.Integer)
     type_names = {'ext_inc':'Экстраполяция по приросту',
                   'ext_gr':'Экстраполяция по темпу роста',
                 'ext_exp':'Экстраполяция по экспоненте',
                 'movements':'Передвижки',
                 'straight':'Выравнивание по прямой', 
                 'gomp_curve':'Кривая роста Гомперца',
-                'lstm':'LSTM'}
+                'lstm':'LSTM', 'rbfn':'RBFN'}
 
 
 @login.user_loader
